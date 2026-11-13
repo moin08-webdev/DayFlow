@@ -1,66 +1,86 @@
-import { SymbolView } from 'expo-symbols';
-import { Link, Tabs } from 'expo-router';
-import { Platform, Pressable } from 'react-native';
-
-import Colors from '@/constants/Colors';
-import { useColorScheme } from '@/components/useColorScheme';
-import { useClientOnlyValue } from '@/components/useClientOnlyValue';
+import React from 'react';
+import { Platform, StyleSheet } from 'react-native';
+import { Tabs } from 'expo-router';
+import { Ionicons } from '@expo/vector-icons';
+import { useAppTheme } from '../../hooks/useThemeContext';
 
 export default function TabLayout() {
-  const colorScheme = useColorScheme();
+  const { theme, isDark } = useAppTheme();
 
   return (
     <Tabs
       screenOptions={{
-        tabBarActiveTintColor: Colors[colorScheme].tint,
-        // Disable the static render of the header on web
-        // to prevent a hydration error in React Navigation v6.
-        headerShown: useClientOnlyValue(false, true),
-      }}>
+        headerShown: false,
+        tabBarActiveTintColor: theme.primary,
+        tabBarInactiveTintColor: theme.tabIconDefault,
+        tabBarStyle: {
+          backgroundColor: theme.surface,
+          borderTopColor: theme.border,
+          borderTopWidth: 1,
+          height: Platform.OS === 'ios' ? 88 : 68,
+          paddingBottom: Platform.OS === 'ios' ? 28 : 10,
+          paddingTop: 8,
+          elevation: 12,
+          shadowColor: theme.shadowColor,
+          shadowOffset: { width: 0, height: -4 },
+          shadowOpacity: isDark ? 0.35 : 0.08,
+          shadowRadius: 10,
+        },
+        tabBarLabelStyle: {
+          fontSize: 11,
+          fontWeight: '700',
+          letterSpacing: 0.2,
+        },
+      }}
+    >
       <Tabs.Screen
         name="index"
         options={{
-          title: 'Tab One',
-          tabBarIcon: ({ color }) => (
-            <SymbolView
-              name={{
-                ios: 'chevron.left.forwardslash.chevron.right',
-                android: 'code',
-                web: 'code',
-              }}
-              tintColor={color}
-              size={28}
+          title: 'Today',
+          tabBarIcon: ({ color, focused }) => (
+            <Ionicons
+              name={focused ? 'today' : 'today-outline'}
+              size={23}
+              color={(color as string) || theme.primary}
             />
-          ),
-          headerRight: () => (
-            <Link href="/modal" asChild>
-              <Pressable style={{ marginRight: 15 }}>
-                {({ pressed }) => (
-                  <SymbolView
-                    name={{ ios: 'info.circle', android: 'info', web: 'info' }}
-                    size={25}
-                    tintColor={Colors[colorScheme].text}
-                    style={{ opacity: pressed ? 0.5 : 1 }}
-                  />
-                )}
-              </Pressable>
-            </Link>
           ),
         }}
       />
       <Tabs.Screen
-        name="two"
+        name="tasks"
         options={{
-          title: 'Tab Two',
-          tabBarIcon: ({ color }) => (
-            <SymbolView
-              name={{
-                ios: 'chevron.left.forwardslash.chevron.right',
-                android: 'code',
-                web: 'code',
-              }}
-              tintColor={color}
-              size={28}
+          title: 'Tasks',
+          tabBarIcon: ({ color, focused }) => (
+            <Ionicons
+              name={focused ? 'checkbox' : 'checkbox-outline'}
+              size={23}
+              color={(color as string) || theme.primary}
+            />
+          ),
+        }}
+      />
+      <Tabs.Screen
+        name="routine"
+        options={{
+          title: 'Routine',
+          tabBarIcon: ({ color, focused }) => (
+            <Ionicons
+              name={focused ? 'repeat' : 'repeat-outline'}
+              size={23}
+              color={(color as string) || theme.primary}
+            />
+          ),
+        }}
+      />
+      <Tabs.Screen
+        name="money"
+        options={{
+          title: 'Money',
+          tabBarIcon: ({ color, focused }) => (
+            <Ionicons
+              name={focused ? 'wallet' : 'wallet-outline'}
+              size={23}
+              color={(color as string) || theme.primary}
             />
           ),
         }}
