@@ -62,3 +62,46 @@ export interface Expense {
 }
 
 export type ThemePreference = 'system' | 'light' | 'dark';
+
+// Ideas & Roadmap Types
+export type IdeaStatus = 'Brainstorming' | 'In Progress' | 'Shipped' | 'Paused';
+
+export interface RoadmapStep {
+  id: string;
+  title: string;
+  description?: string;
+  targetDate?: string;
+  completed: boolean;
+  order: number;
+}
+
+export interface Idea {
+  id: string;
+  title: string;
+  tag: string; // e.g. "SaaS", "Mobile App", "Content", "Career"
+  description?: string;
+  status: IdeaStatus;
+  targetDate?: string;
+  roadmap: RoadmapStep[];
+  createdAt: string;
+}
+
+// Vault & Private Info Types
+export interface VaultFile {
+  id: string;
+  name: string;
+  icon: string; // Ionicons glyph name
+  description?: string;
+  createdAt: string;
+}
+
+export interface VaultRow {
+  id: string;
+  fileId: string;
+  name: string;        // e.g. "Supabase", "OpenAI Key", "Figma"
+  value: string;       // Link URL or Secret key or Info
+  description: string; // What it does / notes
+  tag?: string;        // e.g. "Backend", "AI", "Production"
+  isSecret?: boolean;  // Hide/reveal with eye toggle
+  createdAt: string;
+}

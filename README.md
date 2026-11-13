@@ -1,6 +1,6 @@
 # DayFlow ⚡
 
-> **A native mobile daily planner with smart timetables, task tracking, day-wise habits, and a personal expense tracker.**  
+> **A native mobile daily planner with smart timetables, task tracking, day-wise habits, an expense tracker, an idea roadmap engine, and a secure personal vault.**  
 > Built with **React Native + Expo SDK 58 (TypeScript)**, **Expo Router**, **Reanimated 4**, **SVG charts**, and a modular offline **AsyncStorage** architecture.
 
 ---
@@ -24,18 +24,33 @@
    - Dedicated habits and focus blocks customized per day of the week.
    - **Copy Routine Feature**: Copy any day's routine to other days in one tap (e.g., copy Monday to all weekdays).
 
-4. **Money Tracker (Expenses in ₹)**
+4. **Idea Roadmap & Progress Tracker**
+   - Capture your product visions, SaaS ideas, and personal milestones.
+   - Categorize by tag (*Startup*, *Mobile App*, *AI Tool*, *Content*, *Personal*) and status (*Brainstorming*, *In Progress*, *Shipped*, *Paused*).
+   - **Interactive Roadmaps**: Click on any idea to open its full milestone roadmap.
+   - Check off milestone steps to dynamically update overall progress bars and circular completion metrics.
+
+5. **Personal Vault & Attractive Table Hub**
+   - Organize your tools, bookmarks, credentials, and API keys into custom **Files / Collections** (e.g. *Dev & AI Tools*, *API Keys & Secrets*, *Personal & Accounts*).
+   - **Interactive Table Format**:
+     - **Item Name & Tag**: Color-coded category tags.
+     - **Link / Secret Value**: Automatic URL detection with 1-tap open in browser, 1-tap copy to clipboard, and secret masking (`••••••••`) with reveal eye toggle.
+     - **What It Does**: Clear, structured description of every tool/resource.
+   - **Instant Search Bar**: Filter rows in real-time across titles, tags, and descriptions.
+   - **Create Custom Files**: Add as many custom files/collections as you like with custom icons.
+
+6. **Money Tracker (Expenses in ₹)**
    - Log expenses with amount in **₹ (INR)**, category (*Food*, *Travel*, *Study*, *Shopping*, *Other*), notes, and date.
    - **Summary Cards**: Quick 3D cards for **Today's**, **This Week's**, and **This Month's** totals.
    - **SVG Donut Chart**: Proportional category spending visualization with percentage breakdowns.
    - History with edit and delete capabilities.
 
-5. **Premium 3D Mobile Design & Animations**
+7. **Premium 3D Mobile Design & Animations**
    - **3D Header**: Hardware-accelerated floating layered shapes and ambient luminous gradients.
    - **Tactile Cards**: Layered cards with depth, top border highlights, soft shadows, and press-scale spring animations.
    - **Light & Dark Mode**: Instant toggle button in header, persistent across launches in local storage, and defaults to your system settings.
 
-6. **Clean Architecture**
+8. **Clean Offline Architecture**
    - Storage logic is isolated in `services/storage/` with typed interfaces ready for any remote database (Supabase, Firebase, SQLite, PostgreSQL).
 
 ---
@@ -80,29 +95,14 @@ npx eas-cli login
 ```
 *(If you don't have an Expo account yet, register for free at [expo.dev/signup](https://expo.dev/signup))*
 
-### Step 3: Verify `eas.json`
-`eas.json` is already configured in this repository with APK output:
-```json
-{
-  "build": {
-    "preview": {
-      "distribution": "internal",
-      "android": {
-        "buildType": "apk"
-      }
-    }
-  }
-}
-```
-
-### Step 4: Run the APK Build
+### Step 3: Run the APK Build
 Run:
 ```bash
 npx eas-cli build -p android --profile preview
 ```
 
-### Step 5: Install on Phone
-1. EAS will build the `.apk` in the cloud (takes ~5-10 minutes).
+### Step 4: Install on Phone
+1. EAS will build the `.apk` in the cloud (takes ~5-8 minutes).
 2. When finished, EAS prints a **download link** and a **QR code**.
 3. Scan the QR code or open the link on your Android phone to download `DayFlow.apk`.
 4. Tap the downloaded file to install DayFlow on your phone!
@@ -115,43 +115,49 @@ npx eas-cli build -p android --profile preview
 To-Do_App/
 ├── app/
 │   ├── (tabs)/
-│   │   ├── _layout.tsx      # Bottom tab navigation (Today, Tasks, Routine, Money)
-│   │   ├── index.tsx        # Timetable with check-ins & progress ring
-│   │   ├── tasks.tsx        # Tasks outside timetable & priorities
-│   │   ├── routine.tsx      # Day-specific routine (Mon-Sun) & copy tool
-│   │   └── money.tsx        # Expense tracker with ₹ totals & SVG chart
-│   ├── _layout.tsx          # Root theme provider & gesture handler
-│   └── modal.tsx            # Settings & theme selector
+│   │   ├── _layout.tsx           # 6-Tab Bottom Navigation (Today, Tasks, Routine, Ideas, Money, Vault)
+│   │   ├── index.tsx             # Timetable with check-ins & progress ring
+│   │   ├── tasks.tsx             # Tasks outside timetable & priorities
+│   │   ├── routine.tsx           # Day-specific routine (Mon-Sun) & copy tool
+│   │   ├── ideas.tsx             # Ideas & Roadmaps with milestone tracking
+│   │   ├── money.tsx             # Expense tracker with ₹ totals & SVG chart
+│   │   └── vault.tsx             # Personal Vault & attractive table hub
+│   ├── _layout.tsx               # Root theme provider & gesture handler
+│   └── modal.tsx                 # Settings, theme selector & data reset
 ├── components/
-│   ├── Header3D.tsx         # Layered animated shapes & theme toggle
-│   ├── PressableCard3D.tsx  # Tactile spring-animated card with depth
-│   ├── ProgressRing.tsx     # Animated SVG circular progress ring
-│   ├── CheckmarkPop.tsx     # Pop-animated checkmark with haptics
-│   ├── CategoryChart.tsx    # SVG Donut spending chart & legends
+│   ├── Header3D.tsx              # Layered animated shapes & theme toggle
+│   ├── PressableCard3D.tsx       # Tactile spring-animated card with depth
+│   ├── ProgressRing.tsx          # Animated SVG circular progress ring
+│   ├── CheckmarkPop.tsx          # Pop-animated checkmark with haptics
+│   ├── CategoryChart.tsx         # SVG Donut spending chart & legends
+│   ├── IdeaCard.tsx              # Idea card with progress bar
+│   ├── RoadmapDetailModal.tsx    # Interactive roadmap milestone dashboard
+│   ├── AddIdeaModal.tsx
+│   ├── AddRoadmapStepModal.tsx
+│   ├── VaultTable.tsx            # Styled interactive table with copy/reveal/open
+│   ├── AddVaultFileModal.tsx     # Create new vault collection file
+│   ├── AddVaultRowModal.tsx      # Add row (tool name, link, secret, what it does)
 │   ├── TimetableStepItem.tsx
 │   ├── TaskItem.tsx
 │   ├── RoutineItemCard.tsx
-│   ├── ExpenseItemCard.tsx
-│   ├── AddTimetableModal.tsx
-│   ├── AddTaskModal.tsx
-│   ├── AddRoutineModal.tsx
-│   ├── CopyRoutineModal.tsx
-│   └── AddExpenseModal.tsx
+│   └── ExpenseItemCard.tsx
 ├── constants/
-│   ├── theme.ts             # Light & dark palette, shadows, borders
-│   └── types.ts             # TypeScript definitions
+│   ├── theme.ts                  # Light & dark palette, shadows, borders
+│   └── types.ts                  # TypeScript definitions
 ├── hooks/
-│   └── useThemeContext.tsx  # Persistent light/dark/system theme hook
+│   └── useThemeContext.tsx       # Persistent light/dark/system theme hook
 ├── services/
 │   └── storage/
 │       ├── asyncStorageClient.ts # Storage wrapper
 │       ├── timetableService.ts   # Auto-reset logic & steps
 │       ├── taskService.ts        # Task CRUD & completions
 │       ├── routineService.ts     # Weekday routines & copy logic
+│       ├── ideaService.ts        # Ideas & roadmap execution milestones
+│       ├── vaultService.ts       # Files, tools, links & API secrets
 │       ├── expenseService.ts     # ₹ expenses & calculations
 │       └── settingsService.ts   # Theme preferences
 ├── utils/
-│   └── dateUtils.ts         # Formatting & date calculations
-├── app.json                 # Expo app configuration (com.dayflow.app)
-└── eas.json                 # EAS build configuration for Android APK
+│   └── dateUtils.ts              # Formatting & date calculations
+├── app.json                      # Expo app configuration (com.dayflow.app)
+└── eas.json                      # EAS build configuration for Android APK
 ```

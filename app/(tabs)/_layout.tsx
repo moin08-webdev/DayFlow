@@ -1,5 +1,5 @@
 import React from 'react';
-import { Platform, StyleSheet } from 'react-native';
+import { Platform } from 'react-native';
 import { Tabs } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
 import { useAppTheme } from '../../hooks/useThemeContext';
@@ -18,7 +18,7 @@ export default function TabLayout() {
           borderTopColor: theme.border,
           borderTopWidth: 1,
           height: Platform.OS === 'ios' ? 88 : 68,
-          paddingBottom: Platform.OS === 'ios' ? 28 : 10,
+          paddingBottom: Platform.OS === 'ios' ? 26 : 10,
           paddingTop: 8,
           elevation: 12,
           shadowColor: theme.shadowColor,
@@ -27,9 +27,9 @@ export default function TabLayout() {
           shadowRadius: 10,
         },
         tabBarLabelStyle: {
-          fontSize: 11,
+          fontSize: 10,
           fontWeight: '700',
-          letterSpacing: 0.2,
+          letterSpacing: 0.1,
         },
       }}
     >
@@ -40,7 +40,7 @@ export default function TabLayout() {
           tabBarIcon: ({ color, focused }) => (
             <Ionicons
               name={focused ? 'today' : 'today-outline'}
-              size={23}
+              size={21}
               color={(color as string) || theme.primary}
             />
           ),
@@ -53,7 +53,7 @@ export default function TabLayout() {
           tabBarIcon: ({ color, focused }) => (
             <Ionicons
               name={focused ? 'checkbox' : 'checkbox-outline'}
-              size={23}
+              size={21}
               color={(color as string) || theme.primary}
             />
           ),
@@ -66,7 +66,20 @@ export default function TabLayout() {
           tabBarIcon: ({ color, focused }) => (
             <Ionicons
               name={focused ? 'repeat' : 'repeat-outline'}
-              size={23}
+              size={21}
+              color={(color as string) || theme.primary}
+            />
+          ),
+        }}
+      />
+      <Tabs.Screen
+        name="ideas"
+        options={{
+          title: 'Ideas',
+          tabBarIcon: ({ color, focused }) => (
+            <Ionicons
+              name={focused ? 'bulb' : 'bulb-outline'}
+              size={21}
               color={(color as string) || theme.primary}
             />
           ),
@@ -79,7 +92,20 @@ export default function TabLayout() {
           tabBarIcon: ({ color, focused }) => (
             <Ionicons
               name={focused ? 'wallet' : 'wallet-outline'}
-              size={23}
+              size={21}
+              color={(color as string) || theme.primary}
+            />
+          ),
+        }}
+      />
+      <Tabs.Screen
+        name="vault"
+        options={{
+          title: 'Vault',
+          tabBarIcon: ({ color, focused }) => (
+            <Ionicons
+              name={focused ? 'shield-checkmark' : 'shield-checkmark-outline'}
+              size={21}
               color={(color as string) || theme.primary}
             />
           ),

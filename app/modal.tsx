@@ -128,7 +128,7 @@ export default function SettingsModal() {
               <View style={styles.infoText}>
                 <Text style={[styles.infoTitle, { color: theme.text }]}>100% Offline-First</Text>
                 <Text style={[styles.infoDesc, { color: theme.textSecondary }]}>
-                  All routines, timetable check-ins, tasks, and expenses are encrypted and stored locally on your device using AsyncStorage.
+                  All routines, timetable check-ins, tasks, ideas & roadmaps, and vault credentials are stored locally on your device using AsyncStorage.
                 </Text>
               </View>
             </View>
